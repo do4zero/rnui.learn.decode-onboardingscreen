@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Swiper from 'react-native-swiper';
+import AppLoading from 'expo-app-loading';
 import {
   useFonts,
   Montserrat_400Regular,
@@ -15,7 +16,6 @@ import {
   Montserrat_600SemiBold,
   Montserrat_700Bold,
 } from '@expo-google-fonts/montserrat';
-import { welcomeScreensJson } from './data';
 
 const w = Dimensions.get('window').width;
 const h = Dimensions.get('window').height;
@@ -23,7 +23,7 @@ const h = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   slide: {
     flex: 1,
-    paddingTop: 10,
+    paddingTop: 80,
     marginHorizontal: 30,
   },
   img: {
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 80,
     borderBottomLeftRadius: 80,
     height: h * 0.5,
-    width: w * 0.9,
+    width: 0.9,
   },
   title: {
     fontFamily: 'Montserrat_700Bold',
@@ -49,30 +49,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const Card = ({ imageUrl, cardtitle, description }) => (
-  <View style={styles.slide}>
-    <Image source={imageUrl} style={styles.img} />
-    <Text style={styles.title}>{cardtitle}</Text>
-    <Text style={styles.text}>{description}</Text>
-  </View>
-);
-
-const SwipperButton = ({ icon }) => (
-  <View
-    style={{
-      height: 60,
-      borderRadius: 30,
-      alignItems: 'center',
-      justifyContent: 'center',
-      width: 60,
-      backgroundColor: '#8A56AC',
-      marginHorizontal: 10,
-    }}
-  >
-    <AntDesign name={icon} size={22} color='#FFF' />
-  </View>
-);
-
 const App = () => {
   let [fontLoaded] = useFonts({
     Montserrat_400Regular,
@@ -82,7 +58,7 @@ const App = () => {
   });
 
   if (!fontLoaded) {
-    return null;
+    return <AppLoading />;
   } else {
     return (
       <Swiper
@@ -106,17 +82,38 @@ const App = () => {
         }}
         activeDotColor='#BA56AC'
         dotColor='#998FA2'
-        nextButton={<SwipperButton icon='arrowright' />}
-        prevButton={<SwipperButton icon='arrowleft' />}
+        nextButton={
+          <View
+            style={{
+              height: 60,
+              borderRadius: 30,
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 60,
+              backgroundColor: '#8A56AC',
+            }}
+          >
+            <AntDesign name='arrowright' size={22} color='#FFF' />
+          </View>
+        }
+        prevButton={
+          <View
+            style={{
+              height: 60,
+              borderRadius: 30,
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 60,
+              backgroundColor: '#8A56AC',
+            }}
+          >
+            <AntDesign name='arrowleft' size={22} color='#FFF' />
+          </View>
+        }
       >
-        {welcomeScreensJson &&
-          welcomeScreensJson.map((item) => (
-            <Card
-              imageUrl={item.image}
-              cardtitle={item.title}
-              description={item.description}
-            />
-          ))}
+        <View style={styles.slide}>
+          <Text>Meet Up UI-Kit</Text>
+        </View>
       </Swiper>
     );
   }
