@@ -23,7 +23,7 @@ const h = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   slide: {
     flex: 1,
-    paddingTop: 10,
+    paddingTop: 50,
     marginHorizontal: 30,
   },
   img: {
@@ -110,13 +110,18 @@ const App = () => {
         prevButton={<SwipperButton icon='arrowleft' />}
       >
         {welcomeScreensJson &&
-          welcomeScreensJson.map((item) => (
-            <Card
-              imageUrl={item.image}
-              cardtitle={item.title}
-              description={item.description}
-            />
-          ))}
+          welcomeScreensJson.map(
+            ({ id, imageUrl, title, description }) => {
+              return (
+                <Card
+                  key={id}
+                  imageUrl={imageUrl}
+                  cardtitle={title}
+                  description={description}
+                />
+              );
+            }
+          )}
       </Swiper>
     );
   }
